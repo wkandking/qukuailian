@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qukuailian.dao.TimeSM4Mapper">
+  <resultMap id="BaseResultMap" type="com.example.qukuailian.bean.TimeSM4">
+    <id column="tstring" jdbcType="VARCHAR" property="tstring" />
+    <result column="sm4key" jdbcType="VARCHAR" property="sm4key" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tstring, sm4key
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from timesm4
+    where tstring = #{tstring,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from timesm4
+    where tstring = #{tstring,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.qukuailian.bean.TimeSM4">
+    insert into timesm4 (tstring, sm4key)
+    values (#{tstring,jdbcType=VARCHAR}, #{sm4key,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.qukuailian.bean.TimeSM4">
+    insert into timesm4
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tstring != null">
+        tstring,
+      </if>
+      <if test="sm4key != null">
+        sm4key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tstring != null">
+        #{tstring,jdbcType=VARCHAR},
+      </if>
+      <if test="sm4key != null">
+        #{sm4key,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.qukuailian.bean.TimeSM4">
+    update timesm4
+    <set>
+      <if test="sm4key != null">
+        sm4key = #{sm4key,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tstring = #{tstring,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.qukuailian.bean.TimeSM4">
+    update timesm4
+    set sm4key = #{sm4key,jdbcType=VARCHAR}
+    where tstring = #{tstring,jdbcType=VARCHAR}
+  </update>
+</mapper>

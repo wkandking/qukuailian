@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Main-Class: com.example.qukuailian.QukuailianApplication
+Class-Path: log4j-to-slf4j-2.14.1.jar spring-beans-5.3.13.jar spring-con
+ text-5.3.13.jar bcprov-jdk15on-1.67.jar j2objc-annotations-1.3.jar myba
+ tis-3.4.6.jar spring-boot-autoconfigure-2.6.1.jar apiguardian-api-1.1.2
+ .jar listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar spr
+ ing-boot-starter-jdbc-2.6.1.jar spring-boot-starter-web-2.6.1.jar failu
+ reaccess-1.0.1.jar jackson-annotations-2.13.0.jar spring-aop-5.3.13.jar
+  spring-web-5.3.13.jar tomcat-embed-websocket-9.0.55.jar error_prone_an
+ notations-2.3.4.jar jackson-databind-2.13.0.jar spring-tx-5.3.13.jar bc
+ mail-jdk15on-1.67.jar log4j-api-2.14.1.jar tomcat-embed-el-9.0.55.jar s
+ pring-boot-starter-logging-2.6.1.jar tomcat-embed-core-9.0.55.jar sprin
+ g-webmvc-5.3.13.jar jackson-module-parameter-names-2.13.0.jar checker-q
+ ual-2.11.1.jar spring-jcl-5.3.13.jar spring-boot-starter-tomcat-2.6.1.j
+ ar jackson-datatype-jsr310-2.13.0.jar jackson-datatype-jdk8-2.13.0.jar 
+ jsr305-3.0.2.jar logback-core-1.2.7.jar mybatis-spring-boot-starter-1.3
+ .2.jar guava-29.0-jre.jar bcpkix-jdk15on-1.67.jar jpbc-api-2.0.0.jar sp
+ ring-boot-starter-2.6.1.jar jul-to-slf4j-1.7.32.jar spring-jdbc-5.3.13.
+ jar jakarta.annotation-api-1.3.5.jar snakeyaml-1.29.jar jpbc-plaf-2.0.0
+ .jar fastjson-1.2.76.jar lombok-1.18.22.jar commons-lang-2.6.jar spring
+ -expression-5.3.13.jar logback-classic-1.2.7.jar spring-core-5.3.13.jar
+  mybatis-spring-boot-autoconfigure-1.3.2.jar spring-boot-2.6.1.jar Hika
+ riCP-4.0.3.jar slf4j-api-1.7.32.jar mysql-connector-java-8.0.15.jar myb
+ atis-spring-1.3.2.jar junit-platform-commons-1.8.1.jar jackson-core-2.1
+ 3.0.jar spring-boot-starter-json-2.6.1.jar
+

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qukuailian.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.example.qukuailian.bean.User">
+    <id column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="org" jdbcType="VARCHAR" property="org" />
+    <result column="pk" jdbcType="VARCHAR" property="pk" />
+    <result column="sk" jdbcType="VARCHAR" property="sk" />
+    <result column="nameencrypt" jdbcType="VARCHAR" property="nameencrypt" />
+    <result column="sm4key" jdbcType="VARCHAR" property="sm4key" />
+    <result column="sig_pk" jdbcType="VARCHAR" property="sigPk" />
+    <result column="sig_sk" jdbcType="VARCHAR" property="sigSk" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.qukuailian.bean.UserWithBLOBs">
+    <result column="cert" jdbcType="LONGVARBINARY" property="cert" />
+    <result column="sig_cert" jdbcType="LONGVARBINARY" property="sigCert" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    userid, username, org, pk, sk, nameencrypt, sm4key, sig_pk, sig_sk
+  </sql>
+  <sql id="Blob_Column_List">
+    cert, sig_cert
+  </sql>
+
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from alluser
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from alluser
+    where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from alluser
+    where userid = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.qukuailian.bean.UserWithBLOBs">
+    insert into alluser (userid, username, org, 
+      pk, sk, nameencrypt, 
+      sm4key, sig_pk, sig_sk, 
+      cert, sig_cert)
+    values (#{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{org,jdbcType=VARCHAR}, 
+      #{pk,jdbcType=VARCHAR}, #{sk,jdbcType=VARCHAR}, #{nameencrypt,jdbcType=VARCHAR}, 
+      #{sm4key,jdbcType=VARCHAR}, #{sigPk,jdbcType=VARCHAR}, #{sigSk,jdbcType=VARCHAR}, 
+      #{cert,jdbcType=LONGVARBINARY}, #{sigCert,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.qukuailian.bean.UserWithBLOBs">
+    insert into alluser
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="org != null">
+        org,
+      </if>
+      <if test="pk != null">
+        pk,
+      </if>
+      <if test="sk != null">
+        sk,
+      </if>
+      <if test="nameencrypt != null">
+        nameencrypt,
+      </if>
+      <if test="sm4key != null">
+        sm4key,
+      </if>
+      <if test="sigPk != null">
+        sig_pk,
+      </if>
+      <if test="sigSk != null">
+        sig_sk,
+      </if>
+      <if test="cert != null">
+        cert,
+      </if>
+      <if test="sigCert != null">
+        sig_cert,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null">
+        #{org,jdbcType=VARCHAR},
+      </if>
+      <if test="pk != null">
+        #{pk,jdbcType=VARCHAR},
+      </if>
+      <if test="sk != null">
+        #{sk,jdbcType=VARCHAR},
+      </if>
+      <if test="nameencrypt != null">
+        #{nameencrypt,jdbcType=VARCHAR},
+      </if>
+      <if test="sm4key != null">
+        #{sm4key,jdbcType=VARCHAR},
+      </if>
+      <if test="sigPk != null">
+        #{sigPk,jdbcType=VARCHAR},
+      </if>
+      <if test="sigSk != null">
+        #{sigSk,jdbcType=VARCHAR},
+      </if>
+      <if test="cert != null">
+        #{cert,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="sigCert != null">
+        #{sigCert,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.qukuailian.bean.UserWithBLOBs">
+    update alluser
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null">
+        org = #{org,jdbcType=VARCHAR},
+      </if>
+      <if test="pk != null">
+        pk = #{pk,jdbcType=VARCHAR},
+      </if>
+      <if test="sk != null">
+        sk = #{sk,jdbcType=VARCHAR},
+      </if>
+      <if test="nameencrypt != null">
+        nameencrypt = #{nameencrypt,jdbcType=VARCHAR},
+      </if>
+      <if test="sm4key != null">
+        sm4key = #{sm4key,jdbcType=VARCHAR},
+      </if>
+      <if test="sigPk != null">
+        sig_pk = #{sigPk,jdbcType=VARCHAR},
+      </if>
+      <if test="sigSk != null">
+        sig_sk = #{sigSk,jdbcType=VARCHAR},
+      </if>
+      <if test="cert != null">
+        cert = #{cert,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="sigCert != null">
+        sig_cert = #{sigCert,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.qukuailian.bean.UserWithBLOBs">
+    update alluser
+    set username = #{username,jdbcType=VARCHAR},
+      org = #{org,jdbcType=VARCHAR},
+      pk = #{pk,jdbcType=VARCHAR},
+      sk = #{sk,jdbcType=VARCHAR},
+      nameencrypt = #{nameencrypt,jdbcType=VARCHAR},
+      sm4key = #{sm4key,jdbcType=VARCHAR},
+      sig_pk = #{sigPk,jdbcType=VARCHAR},
+      sig_sk = #{sigSk,jdbcType=VARCHAR},
+      cert = #{cert,jdbcType=LONGVARBINARY},
+      sig_cert = #{sigCert,jdbcType=LONGVARBINARY}
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.qukuailian.bean.User">
+    update alluser
+    set username = #{username,jdbcType=VARCHAR},
+      org = #{org,jdbcType=VARCHAR},
+      pk = #{pk,jdbcType=VARCHAR},
+      sk = #{sk,jdbcType=VARCHAR},
+      nameencrypt = #{nameencrypt,jdbcType=VARCHAR},
+      sm4key = #{sm4key,jdbcType=VARCHAR},
+      sig_pk = #{sigPk,jdbcType=VARCHAR},
+      sig_sk = #{sigSk,jdbcType=VARCHAR}
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+</mapper>
