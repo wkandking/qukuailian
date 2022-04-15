@@ -45,40 +45,38 @@ public class CheckService {
         return duration;
     }
 
-    private Long getNow() {
-        return new Date().getTime();
-    }
-
     public boolean checkAuction(String username) {
-        Long now = getNow();
+        Long now = System.currentTimeMillis();
         if (!auctionMap.containsKey(username)) {
             return false;
         } else {
-            if (auctionMap.get(username) - getDuration() - now < 0) {
+            if (auctionMap.get(username) + getDuration() - now < 0) {
                 auctionMap.remove(username);
+                System.out.println("check overtime!");
                 return false;
             }
         }
-
+        System.out.println("check successfully!");
         auctionMap.put(username, now);
         return true;
     }
 
     public boolean checkPaper(String papernum) {
-        Long now = getNow();
+        Long now = System.currentTimeMillis();
         if (!paperMap.containsKey(papernum)) {
             return false;
         } else {
-            if (paperMap.get(papernum) - getDuration() - now < 0) {
+            if (paperMap.get(papernum) + getDuration() - now < 0) {
                 paperMap.remove(papernum);
+                System.out.println("check overtime!");
                 return false;
             }
         }
 
+        System.out.println("check successfully!");
         paperMap.put(papernum, now);
         return true;
     }
-
     public void putAuctionMap(String username, Long time) {
         this.auctionMap.put(username, time);
     }

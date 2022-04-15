@@ -58,11 +58,14 @@ public class CheckController {
 
             String url = "http://" + getUrl(request) + ":8084/auction/recheck";
             System.out.print("Recheck URL : " + url);
-            Message message = restTemplate.getForObject(url, Message.class, params);
+            String message = restTemplate.postForObject(url, params, String.class);
             System.out.println("Message : " + message);
+            JSONObject o2 = (JSONObject) JSON.parse(message);
 
-            if (message.getCode() == 200) {
-                checkService.putAuctionMap(username, message.getTime());
+            if (o2 != null && o2.getInteger("code") == 200) {
+                Long time = o2.getLong("time");
+                if (time == null) time = System.currentTimeMillis();
+                checkService.putAuctionMap(username, time);
             }
 
             return MessageUtil.ok("ok");
@@ -103,7 +106,7 @@ public class CheckController {
             System.out.println("Message : " + message);
             JSONObject o2 = (JSONObject) JSON.parse(message);
 
-            if (o2.getInteger("code") == 200) {
+            if (o2 != null && o2.getInteger("code") == 200) {
                 checkService.putPaperMap(papernumber, o2.getLong("time"));
             }
 
