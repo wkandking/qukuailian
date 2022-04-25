@@ -45,7 +45,7 @@ public class CheckController {
 
             String username = o.getString("username");
 
-            if (checkService.checkAuction(username)) {
+            if (checkService.check(username)) {
                 return MessageUtil.ok("ok");
             }
 
@@ -86,18 +86,18 @@ public class CheckController {
             if (!cert.equals(checkService.getPaperCert()))
                 return MessageUtil.error("Cert Error");
 
-            String papernumber = o.getString("papernumber");
+            String username = o.getString("username");
 
-            if (checkService.checkPaper(papernumber)) {
+            if (checkService.check(username)) {
                 System.out.println("已存在！");
                 return MessageUtil.ok("ok");
             }
 
             String randNum = o.getString("rand");
-            String hash = SM3ServiceImpl.getHash(cert + papernumber + randNum);
+            String hash = SM3ServiceImpl.getHash(cert + username + randNum);
 
             Map<String,String> params = new HashMap<>();
-            params.put("papernumber", papernumber);
+            params.put("papernumber", username);
             params.put("hash", hash);
 
             String url = "http://" + getUrl(request) + ":8000/base/recheck";
@@ -107,7 +107,7 @@ public class CheckController {
             JSONObject o2 = (JSONObject) JSON.parse(message);
 
             if (o2 != null && o2.getInteger("code") == 200) {
-                checkService.putPaperMap(papernumber, o2.getLong("time"));
+                checkService.putPaperMap(username, o2.getLong("time"));
             }
 
             return MessageUtil.ok("ok");

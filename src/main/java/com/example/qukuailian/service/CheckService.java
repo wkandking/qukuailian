@@ -14,10 +14,7 @@ public class CheckService {
     long duration = 30 * 60 * 1000;
 
     // key : 交易人姓名 , Value : 交易时间 - 毫秒
-    ConcurrentHashMap<String, Long> auctionMap;
-
-    // key : 交易ID , Value : 交易时间 - 毫秒
-    ConcurrentHashMap<String, Long> paperMap;
+    ConcurrentHashMap<String, Long> map;
 
     String paperCert;
     String auctionCert;
@@ -31,13 +28,11 @@ public class CheckService {
     }
 
     CheckService() {
-        this.auctionMap = new ConcurrentHashMap<>();
-        this.paperMap = new ConcurrentHashMap<>();
+        this.map = new ConcurrentHashMap<>();
     }
 
     CheckService(long duration) {
-        this.auctionMap = new ConcurrentHashMap<>();
-        this.paperMap = new ConcurrentHashMap<>();
+        this.map = new ConcurrentHashMap<>();
         this.duration = duration;
     }
 
@@ -45,43 +40,28 @@ public class CheckService {
         return duration;
     }
 
-    public boolean checkAuction(String username) {
+    public boolean check(String username) {
         Long now = System.currentTimeMillis();
-        if (!auctionMap.containsKey(username)) {
+        if (!map.containsKey(username)) {
             return false;
         } else {
-            if (auctionMap.get(username) + getDuration() - now < 0) {
-                auctionMap.remove(username);
-                System.out.println("check overtime!");
-                return false;
-            }
-        }
-        System.out.println("check successfully!");
-        auctionMap.put(username, now);
-        return true;
-    }
-
-    public boolean checkPaper(String papernum) {
-        Long now = System.currentTimeMillis();
-        if (!paperMap.containsKey(papernum)) {
-            return false;
-        } else {
-            if (paperMap.get(papernum) + getDuration() - now < 0) {
-                paperMap.remove(papernum);
+            if (map.get(username) + getDuration() - now < 0) {
+                map.remove(username);
                 System.out.println("check overtime!");
                 return false;
             }
         }
 
         System.out.println("check successfully!");
-        paperMap.put(papernum, now);
+        map.put(username, now);
         return true;
     }
+
     public void putAuctionMap(String username, Long time) {
-        this.auctionMap.put(username, time);
+        this.map.put(username, time);
     }
 
-    public void putPaperMap(String papernum, Long time) {
-        this.paperMap.put(papernum, time);
+    public void putPaperMap(String username, Long time) {
+        this.map.put(username, time);
     }
 }

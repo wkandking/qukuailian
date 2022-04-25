@@ -76,7 +76,7 @@ public class DownloadController {
     }
 
     @PostMapping("/verify")
-    public Message<String> upload(@RequestParam("file") MultipartFile file) {
+    public Message<String> upload(@RequestPart("file") MultipartFile file) {
         try {
             // 还原证书
             if (CertService.verifyCertificate(file)) return MessageUtil.ok("验证成功");
