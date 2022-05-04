@@ -12,13 +12,18 @@ public class DecryptService {
     @Autowired
     SM4Utils sm4;
 
-    public String DecryptString (String plainText, String key) {
-        sm4.secretKey = key;
-        return sm4.decryptData_ECB(plainText);
+    @Autowired
+    CheckService checkService;
+
+    public String DecryptString (String plainText, String username) {
+        if (checkService.check(username)) {
+            sm4.secretKey = checkService.map.get(username).getKey();
+            return sm4.decryptData_ECB(plainText);
+        } else return null;
     }
 
-    public JSONObject DecryptJson (String plainText, String key) {
-        String json = DecryptString(plainText, key);
+    public JSONObject DecryptJson (String plainText, String username) {
+        String json = DecryptString(plainText, username);
         return (JSONObject) JSON.parse(json);
     }
 }

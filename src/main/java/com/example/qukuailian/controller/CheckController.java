@@ -65,7 +65,7 @@ public class CheckController {
             if (o2 != null && o2.getInteger("code") == 200) {
                 Long time = o2.getLong("time");
                 if (time == null) time = System.currentTimeMillis();
-                checkService.putAuctionMap(username, time);
+                checkService.putAuctionMap(username, hash, time);
             }
 
             return MessageUtil.ok("ok");
@@ -107,7 +107,7 @@ public class CheckController {
             JSONObject o2 = (JSONObject) JSON.parse(message);
 
             if (o2 != null && o2.getInteger("code") == 200) {
-                checkService.putPaperMap(username, o2.getLong("time"));
+                checkService.putPaperMap(username, hash, o2.getLong("time"));
             }
 
             return MessageUtil.ok("ok");

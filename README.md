@@ -26,4 +26,4 @@
 
 参数：file（文件类型）
 
-测试地址：http://yapi.nickname4th.vip/mock/57/cert/download
+测试地址：http://yapi.nickname4th.vip/mock/57/cert/verify
