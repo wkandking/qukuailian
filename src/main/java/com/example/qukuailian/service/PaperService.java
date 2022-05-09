@@ -208,6 +208,57 @@ public class PaperService {
         ApiPost.sendPost("https://blockchain.nickname4th.vip/api/base/saveprivateprotectinfo",jsonSupervise);
     }
 
+
+    public void reqVerify(String json) throws Exception{
+        PaperVerify paperVerify = new PaperVerify();
+        JSONObject parse = (JSONObject) JSON.parse(json);
+        String signautre = parse.getString("signautre");
+        String paperNumber = parse.getString("paperNumber");
+        String issuer = parse.getString("issuer");
+        String faceValue = parse.getString("faceValue");
+        String maturityDateTIme = parse.getString("maturityDateTime");
+        User user = userMapper.selectByUserName(issuer);
+        paperVerify.setUserPk(user.getPk());
+        paperVerify.setType("veriyf");
+        paperVerify.setPaperNumber(paperNumber);
+        Supervise supervise = new Supervise();
+        supervise.setData_id(paperNumber);
+        List list = new ArrayList();
+        list.add(paperVerify);
+        supervise.setEncrypted_content(list);
+        supervise.setDep("paper-verify");
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonSupervise = mapper.writeValueAsString(supervise);
+        ApiPost.sendPost("https://blockchain.nickname4th.vip/api/base/saveprivateprotectinfo",jsonSupervise);
+    }
+
+    public void reqTransfer(String json) throws Exception{
+        JSONObject parse = (JSONObject) JSON.parse(json);
+        User user = userMapper.selectByUserName(parse.getString("buyer"));
+        PaperTransfer paperTransfer = new PaperTransfer();
+        paperTransfer.setPaperNumber(parse.getString("paperNumber"));
+        paperTransfer.setAlgType(parse.getString("algType"));
+        paperTransfer.setType("encrypt");
+        paperTransfer.setEncryptPrice(parse.getString("price"));
+        paperTransfer.setEncryptStatus(parse.getString("proctectContent"));
+        String algType = parse.getString("algType");
+        if(algType.equals("2")){
+            paperTransfer.setUserSk(user.getSk());
+        }
+        else{
+            paperTransfer.setUserSk(user.getSm4key());
+        }
+        Supervise supervise = new Supervise();
+        supervise.setData_id(parse.getString("paperNumber"));
+        List list = new ArrayList();
+        list.add(paperTransfer);
+        supervise.setEncrypted_content(list);
+        supervise.setDep("paper-transfer");
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonSupervise = mapper.writeValueAsString(supervise);
+        ApiPost.sendPost("https://blockchain.nickname4th.vip/api/base/saveprivateprotectinfo",jsonSupervise);
+
+    }
 //    public void reqSuperviseForBuy(String json) throws Exception{
 //        Supervise supervise = new Supervise();
 //        JSONObject o = (JSONObject) JSON.parse(json);

@@ -144,6 +144,7 @@ public class PaperController {
     public Message<String> verify(@RequestBody String json){
         try{
             Boolean result = paperService.verify(json);
+            paperService.reqVerify(json);
             if(result){
                 return MessageUtil.ok("200");
             }else{
@@ -184,6 +185,17 @@ public class PaperController {
         try {
             final String encrypt = paperService.encrypt(json);
             return MessageUtil.ok(encrypt);
+        } catch (Exception e) {
+            throw new CustomException(120,"sm4 encrypt failed!");
+        }
+
+    }
+
+    @PostMapping("/transfer")
+    public void transfer(@RequestBody String json){
+        try {
+            paperService.reqTransfer(json);
+
         } catch (Exception e) {
             throw new CustomException(120,"sm4 encrypt failed!");
         }
