@@ -7,15 +7,17 @@ package com.example.qukuailian.util.SM4;
 
 import com.example.qukuailian.util.util.Util;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class SM4Utils {
-//	private String secretKey = "";
-//    private String iv = "";
-//    private boolean hexString = false;
+    //	  private String secretKey = "";
+    //    private String iv = "";
+    //    private boolean hexString = false;
 
     public String secretKey = "";
     public String iv = "";
@@ -52,7 +54,7 @@ public class SM4Utils {
     public String decryptData_ECB(String cipherText) {
         try {
             byte[] encrypted = Util.hexToByte(cipherText);
-            cipherText= Base64.encodeBase64String(encrypted);;
+            cipherText= Base64.encodeBase64String(encrypted);
             //cipherText = new BASE64Encoder().encode(encrypted);
             if (cipherText != null && cipherText.trim().length() > 0) {
                Pattern p = Pattern.compile("\\s*|\t|\r|\n");
@@ -111,7 +113,7 @@ public class SM4Utils {
     public String decryptData_CBC(String cipherText) {
         try {
             byte[] encrypted = Util.hexToByte(cipherText);
-            cipherText=Base64.encodeBase64String(encrypted);;
+            cipherText=Base64.encodeBase64String(encrypted);
             //cipherText = new BASE64Encoder().encode(encrypted);
             if (cipherText != null && cipherText.trim().length() > 0) {
                 Pattern p = Pattern.compile("\\s*|\t|\r|\n");

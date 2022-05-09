@@ -38,8 +38,14 @@ public class DownloadController {
 
             if (uwb == null) {
                 return new ResponseEntity<>(
-                    "用户不存在",
-                    HttpStatus.BAD_REQUEST);
+                        "用户不存在",
+                        HttpStatus.BAD_REQUEST);
+            }
+
+            if (uwb.getCert() == null || uwb.getCert().length == 0) {
+                return new ResponseEntity<>(
+                        "证书不存在",
+                        HttpStatus.BAD_REQUEST);
             }
 
             byte[] bytes = uwb.getCert();
@@ -70,7 +76,7 @@ public class DownloadController {
     }
 
     @PostMapping("/verify")
-    public Message<String> upload(@RequestParam("file") MultipartFile file) {
+    public Message<String> upload(@RequestPart("file") MultipartFile file) {
         try {
             // 还原证书
             if (CertService.verifyCertificate(file)) return MessageUtil.ok("验证成功");

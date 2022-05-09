@@ -2,6 +2,7 @@ package com.example.qukuailian.service;
 
 import com.example.qukuailian.bean.Message;
 import com.example.qukuailian.util.OPE.MessageUtil;
+import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,11 +14,8 @@ public class CheckService {
     // 持续时间默认为 半个小时
     long duration = 30 * 60 * 1000;
 
-    // key : 交易人姓名 , Value : 交易时间 - 毫秒
-    ConcurrentHashMap<String, Long> auctionMap;
-
-    // key : 交易ID , Value : 交易时间 - 毫秒
-    ConcurrentHashMap<String, Long> paperMap;
+    // key : 交易人姓名 , Value : 密钥 交易时间 - 毫秒
+    ConcurrentHashMap<String, Pair<String, Long>> map;
 
     String paperCert;
     String auctionCert;
@@ -31,13 +29,11 @@ public class CheckService {
     }
 
     CheckService() {
-        this.auctionMap = new ConcurrentHashMap<>();
-        this.paperMap = new ConcurrentHashMap<>();
+        this.map = new ConcurrentHashMap<>();
     }
 
     CheckService(long duration) {
-        this.auctionMap = new ConcurrentHashMap<>();
-        this.paperMap = new ConcurrentHashMap<>();
+        this.map = new ConcurrentHashMap<>();
         this.duration = duration;
     }
 
@@ -45,45 +41,30 @@ public class CheckService {
         return duration;
     }
 
-    private Long getNow() {
-        return new Date().getTime();
-    }
-
-    public boolean checkAuction(String username) {
-        Long now = getNow();
-        if (!auctionMap.containsKey(username)) {
+    public boolean check(String username) {
+        Long now = System.currentTimeMillis();
+        Pair pair = null;
+        if (!map.containsKey(username)) {
             return false;
         } else {
-            if (auctionMap.get(username) - getDuration() - now < 0) {
-                auctionMap.remove(username);
+            pair = map.get(username);
+            if (pair != null && (long) pair.getValue() + getDuration() - now < 0) {
+                map.remove(username);
+                System.out.println("check overtime!");
                 return false;
             }
         }
 
-        auctionMap.put(username, now);
+        System.out.println("check successfully!");
+        map.put(username, new Pair<String, Long>((String) pair.getKey(), now));
         return true;
     }
 
-    public boolean checkPaper(String papernum) {
-        Long now = getNow();
-        if (!paperMap.containsKey(papernum)) {
-            return false;
-        } else {
-            if (paperMap.get(papernum) - getDuration() - now < 0) {
-                paperMap.remove(papernum);
-                return false;
-            }
-        }
-
-        paperMap.put(papernum, now);
-        return true;
+    public void putAuctionMap(String username, String key, Long time) {
+        this.map.put(username, new Pair<>(key, time));
     }
 
-    public void putAuctionMap(String username, Long time) {
-        this.auctionMap.put(username, time);
-    }
-
-    public void putPaperMap(String papernum, Long time) {
-        this.paperMap.put(papernum, time);
+    public void putPaperMap(String username, String key, Long time) {
+        this.map.put(username, new Pair<>(key, time));
     }
 }

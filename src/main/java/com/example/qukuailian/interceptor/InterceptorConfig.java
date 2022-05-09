@@ -9,9 +9,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new AuctionControllerInterceptor())
-//                .addPathPatterns("/auction/createkey", "/auction/pkenc", "/auction/decinfo");
-//        registry.addInterceptor(new PaperControllerInterceptor())
-//                .addPathPatterns("/paper/issue", "/paper/buy", "/paper/check", "/paper/transfer");
+        registry.addInterceptor(new ControllerInterceptor())
+                .addPathPatterns("/encrypted/auction/createkey", "/encrypted/auction/pkenc", "/encrypted/auction/decinfo")
+                .addPathPatterns("/encrypted/paper/issue", "/encrypted/paper/buy", "/encrypted/paper/check", "/encrypted/paper/transfer");
     }
 }
