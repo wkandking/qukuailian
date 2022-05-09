@@ -5,13 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PaperMapper {
-    int deleteByPrimaryKey(String paperId);
+    int deleteByPrimaryKey(String txid);
 
     int insert(Paper record);
 
     int insertSelective(Paper record);
 
-    Paper selectByPrimaryKey(String paperId);
+    Paper selectByPrimaryKey(String txid);
 
     int updateByPrimaryKeySelective(Paper record);
 

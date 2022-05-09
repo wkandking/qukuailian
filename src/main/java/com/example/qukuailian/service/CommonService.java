@@ -3,15 +3,22 @@ package com.example.qukuailian.service;
 import com.example.qukuailian.bean.TimeSM4;
 import com.example.qukuailian.dao.TimeSM4Mapper;
 import com.example.qukuailian.util.OPE.CustomException;
+import com.example.qukuailian.util.SM2.SM2;
 import com.example.qukuailian.util.SM4.SM4Util;
 import com.example.qukuailian.util.SMA;
 import com.example.qukuailian.util.Other.DifferentialPrivacyImpl;
 import com.example.qukuailian.util.Other.KanonymityImpl;
+import com.example.qukuailian.util.paillier.PaillierCipher;
+import com.example.qukuailian.util.paillier.PaillierKeyPair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 @Service
 public class CommonService {
@@ -87,4 +94,23 @@ public class CommonService {
         String retvalue = KanonymityImpl.kannoy(k,context);
         return retvalue;
     }
+    public String paillierEncry(BigInteger number, PublicKey publicKey){
+        String encryptData = PaillierCipher.encrypt(number, publicKey);
+        return encryptData;
+    }
+
+    public BigInteger paillierDecrypt(String encryData, PrivateKey privateKey){
+        BigInteger decryptData = PaillierCipher.decrypt(encryData, privateKey);
+        return decryptData;
+    }
+
+    public String paillierAdd(String text1, String text2){
+        final String s = PaillierCipher.ciphertextAdd(text1, text2);
+        return s;
+    }
+
+    public KeyPair getPaillierKey(){
+        return PaillierKeyPair.generateGoodKeyPair();
+    }
+
 }

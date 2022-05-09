@@ -2,57 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.qukuailian.dao.PaperMapper">
   <resultMap id="BaseResultMap" type="com.example.qukuailian.bean.Paper">
-    <id column="paper_id" jdbcType="VARCHAR" property="paperId" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <id column="txid" jdbcType="VARCHAR" property="txid" />
+    <result column="paperNumber" jdbcType="VARCHAR" property="papernumber" />
+    <result column="buyer" jdbcType="VARCHAR" property="buyer" />
   </resultMap>
   <sql id="Base_Column_List">
-    paper_id, user_id
+    txid, paperNumber, buyer
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from paperkey
-    where paper_id = #{paperId,jdbcType=VARCHAR}
+    where txid = #{txid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from paperkey
-    where paper_id = #{paperId,jdbcType=VARCHAR}
+    where txid = #{txid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.example.qukuailian.bean.Paper">
-    insert into paperkey (paper_id, user_id)
-    values (#{paperId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
+    insert into paperkey (txid, paperNumber, buyer
+      )
+    values (#{txid,jdbcType=VARCHAR}, #{papernumber,jdbcType=VARCHAR}, #{buyer,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.qukuailian.bean.Paper">
     insert into paperkey
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="paperId != null">
-        paper_id,
+      <if test="txid != null">
+        txid,
       </if>
-      <if test="userId != null">
-        user_id,
+      <if test="papernumber != null">
+        paperNumber,
+      </if>
+      <if test="buyer != null">
+        buyer,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="paperId != null">
-        #{paperId,jdbcType=VARCHAR},
+      <if test="txid != null">
+        #{txid,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+      <if test="papernumber != null">
+        #{papernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer != null">
+        #{buyer,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.qukuailian.bean.Paper">
     update paperkey
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=VARCHAR},
+      <if test="papernumber != null">
+        paperNumber = #{papernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer != null">
+        buyer = #{buyer,jdbcType=VARCHAR},
       </if>
     </set>
-    where paper_id = #{paperId,jdbcType=VARCHAR}
+    where txid = #{txid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.qukuailian.bean.Paper">
     update paperkey
-    set user_id = #{userId,jdbcType=VARCHAR}
-    where paper_id = #{paperId,jdbcType=VARCHAR}
+    set paperNumber = #{papernumber,jdbcType=VARCHAR},
+      buyer = #{buyer,jdbcType=VARCHAR}
+    where txid = #{txid,jdbcType=VARCHAR}
   </update>
 </mapper>

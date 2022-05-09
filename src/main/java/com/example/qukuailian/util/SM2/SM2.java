@@ -193,6 +193,14 @@ public class SM2 {
     }
 
     public static void main(String[] args) throws Exception {
+        final KeyPair keyPair = generateSm2KeyPair("100");
+        String pk = Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
+        String sk = Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
 
+        String str = "wangkang";
+        String signal = sign(str, sk);
+        System.out.println(signal);
+
+        System.out.println(verify(str, signal, pk));
     }
 }
