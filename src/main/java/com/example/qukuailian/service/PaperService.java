@@ -242,11 +242,12 @@ public class PaperService {
         paperTransfer.setEncryptPrice(parse.getString("price"));
         paperTransfer.setEncryptStatus(parse.getString("proctectContent"));
         String algType = parse.getString("algType");
+        String super_pk = "MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEqjP97ZGzNEU1yVjF/b7LC/yaNrL09qy6Gd1+BcVbINLF4pxl28NvaOM+4UTCInPvOWpd3KSg5DWXVTfAOajsTg==";
         if(algType.equals("2")){
-            paperTransfer.setUserSk(user.getSk());
+            paperTransfer.setUserSk(SM2.encrypt(user.getSk(),super_pk));
         }
         else{
-            paperTransfer.setUserSk(user.getSm4key());
+            paperTransfer.setUserSk(SM2.encrypt(user.getSm4key(), super_pk));
         }
         Supervise supervise = new Supervise();
         supervise.setData_id(parse.getString("paperNumber"));

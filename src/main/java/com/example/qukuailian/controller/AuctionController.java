@@ -94,7 +94,7 @@ public class AuctionController {
         auctionInformation.setAuctionId(auctionId);
         auctionInformation.setBidprice(bidprice);
         auctionInformation.setUsername(username);
-        auctionService.reqSupervise(auctionId,bidprice,username,stype);
+        //auctionService.reqSupervise(auctionId,bidprice,username,stype);
         return MessageUtil.ok(auctionService.encrypt(auctionInformation));
     }
 

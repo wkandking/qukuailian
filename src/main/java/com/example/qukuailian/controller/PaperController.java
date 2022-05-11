@@ -197,7 +197,7 @@ public class PaperController {
             paperService.reqTransfer(json);
 
         } catch (Exception e) {
-            throw new CustomException(120,"sm4 encrypt failed!");
+            throw new CustomException(120,"transfer failed!");
         }
 
     }
