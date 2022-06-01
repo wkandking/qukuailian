@@ -21,9 +21,11 @@ public class AuctionController {
     AuctionService auctionService;
 
     @PostMapping("/createkey")
-    public Message<User> createKey(@RequestParam("algtype") String algtype,
-                                     @RequestParam("username") String username) throws Exception {
-        Pair<Boolean, User> pair = auctionService.insertKey(algtype, username);
+    public Message<User> createKey(@RequestBody String json) throws Exception {
+        JSONObject o = (JSONObject) JSON.parse(json);
+        String algType = o.getString("algtype");
+        String username = o.getString("username");
+        Pair<Boolean, User> pair = auctionService.insertKey(algType, username);
         if(pair.getKey()){
             return MessageUtil.ok(pair.getValue());
         }
@@ -80,16 +82,20 @@ public class AuctionController {
     }
 
     @PostMapping("/createAuction")
-    public Message<String> createAuction(@RequestParam("auctionid") String auctionId){
+    public Message<String> createAuction(@RequestBody String json){
+        JSONObject o = (JSONObject) JSON.parse(json);
+        String auctionId = o.getString("auctionId");
         auctionService.insertAuction(auctionId);
         return MessageUtil.ok();
     }
 
     @RequestMapping("/encBidInfo")
-    public Message<AuctionInformation> encBidInfo(@RequestParam("auctionid") String auctionId,
-                                                  @RequestParam("bidprice") String bidprice,
-                                                  @RequestParam("username") String username,
-                                                  @RequestParam("stype") String stype) throws Exception {
+    public Message<AuctionInformation> encBidInfo(@RequestBody String json) throws Exception {
+        JSONObject o = (JSONObject) JSON.parse(json);
+        String auctionId = o.getString("auctionId");
+        String bidprice = o.getString("bidprice");
+        String username = o.getString("username");
+        String stype = o.getString("stype");
         AuctionInformation auctionInformation = new AuctionInformation();
         auctionInformation.setAuctionId(auctionId);
         auctionInformation.setBidprice(bidprice);
@@ -99,10 +105,12 @@ public class AuctionController {
     }
 
     @RequestMapping("/queryInfo")
-    public Message<AuctionInformation> queryInfo(@RequestParam("auctionid") String auctionId,
-                                                 @RequestParam("highTestPrice") String highTestPrice,
-                                                 @RequestParam("username") String username) throws Exception {
+    public Message<AuctionInformation> queryInfo(@RequestBody String json) throws Exception {
         try{
+            JSONObject o = (JSONObject) JSON.parse(json);
+            String auctionId = o.getString("auctionId");
+            String highTestPrice = o.getString("highTestPrice");
+            String username = o.getString("username");
             AuctionInformation auctionInformation = new AuctionInformation();
             auctionInformation.setAuctionId(auctionId);
             auctionInformation.setBidprice(highTestPrice);

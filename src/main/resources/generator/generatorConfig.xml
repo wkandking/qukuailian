@@ -34,7 +34,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="paperkey" domainObjectName="Paper" enableCountByExample="false"  enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table tableName="auction" domainObjectName="Auction" enableCountByExample="false"  enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         <!--
         <table tableName="department" domainObjectName="Department" enableCountByExample="false"  enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         -->

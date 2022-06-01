@@ -2,46 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.qukuailian.dao.AuctionMapper">
   <resultMap id="BaseResultMap" type="com.example.qukuailian.bean.Auction">
-    <id column="flag" jdbcType="INTEGER" property="flag" />
-    <result column="auction_id" jdbcType="VARCHAR" property="auctionId" />
+    <id column="auction_id" jdbcType="VARCHAR" property="auctionId" />
     <result column="pk" jdbcType="VARCHAR" property="pk" />
     <result column="sk" jdbcType="VARCHAR" property="sk" />
     <result column="ok" jdbcType="VARCHAR" property="ok" />
   </resultMap>
   <sql id="Base_Column_List">
-    flag, auction_id, pk, sk, ok
+    auction_id, pk, sk, ok
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from auction
-    where flag = #{flag,jdbcType=INTEGER}
-  </select>
-
-  <select id="selectByAuctionId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
     <include refid="Base_Column_List" />
     from auction
     where auction_id = #{auctionId,jdbcType=VARCHAR}
   </select>
-
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from auction
-    where flag = #{flag,jdbcType=INTEGER}
+    where auction_id = #{auctionId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.example.qukuailian.bean.Auction">
-    insert into auction (flag, auction_id, pk, 
-      sk, ok)
-    values (#{flag,jdbcType=INTEGER}, #{auctionId,jdbcType=VARCHAR}, #{pk,jdbcType=VARCHAR}, 
-      #{sk,jdbcType=VARCHAR}, #{ok,jdbcType=VARCHAR})
+    insert into auction (auction_id, pk, sk, 
+      ok)
+    values (#{auctionId,jdbcType=VARCHAR}, #{pk,jdbcType=VARCHAR}, #{sk,jdbcType=VARCHAR}, 
+      #{ok,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.qukuailian.bean.Auction">
     insert into auction
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="flag != null">
-        flag,
-      </if>
       <if test="auctionId != null">
         auction_id,
       </if>
@@ -56,9 +43,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="flag != null">
-        #{flag,jdbcType=INTEGER},
-      </if>
       <if test="auctionId != null">
         #{auctionId,jdbcType=VARCHAR},
       </if>
@@ -76,9 +60,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.example.qukuailian.bean.Auction">
     update auction
     <set>
-      <if test="auctionId != null">
-        auction_id = #{auctionId,jdbcType=VARCHAR},
-      </if>
       <if test="pk != null">
         pk = #{pk,jdbcType=VARCHAR},
       </if>
@@ -89,14 +70,13 @@
         ok = #{ok,jdbcType=VARCHAR},
       </if>
     </set>
-    where flag = #{flag,jdbcType=INTEGER}
+    where auction_id = #{auctionId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.qukuailian.bean.Auction">
     update auction
-    set auction_id = #{auctionId,jdbcType=VARCHAR},
-      pk = #{pk,jdbcType=VARCHAR},
+    set pk = #{pk,jdbcType=VARCHAR},
       sk = #{sk,jdbcType=VARCHAR},
       ok = #{ok,jdbcType=VARCHAR}
-    where flag = #{flag,jdbcType=INTEGER}
+    where auction_id = #{auctionId,jdbcType=VARCHAR}
   </update>
 </mapper>

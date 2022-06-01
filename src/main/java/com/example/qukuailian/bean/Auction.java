@@ -1,11 +1,11 @@
 package com.example.qukuailian.bean;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class Auction {
-    private Integer flag;
-
     private String auctionId;
 
     private String pk;
@@ -13,5 +13,4 @@ public class Auction {
     private String sk;
 
     private String ok;
-
 }

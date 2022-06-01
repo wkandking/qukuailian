@@ -5,15 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AuctionMapper {
-    int deleteByPrimaryKey(Integer flag);
+    int deleteByPrimaryKey(String auctionId);
 
     int insert(Auction record);
 
     int insertSelective(Auction record);
 
-    Auction selectByPrimaryKey(Integer flag);
-
-    Auction selectByAuctionId(String auctionId);
+    Auction selectByPrimaryKey(String auctionId);
 
     int updateByPrimaryKeySelective(Auction record);
 

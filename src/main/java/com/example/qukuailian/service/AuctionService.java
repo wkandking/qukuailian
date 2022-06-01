@@ -3,11 +3,10 @@ package com.example.qukuailian.service;
 import com.example.qukuailian.bean.*;
 import com.example.qukuailian.dao.AuctionMapper;
 import com.example.qukuailian.dao.UserMapper;
-import com.example.qukuailian.util.OPE.MessageUtil;
+import com.example.qukuailian.util.OPE.CustomException;
 import com.example.qukuailian.util.OPE.OPE;
 import com.example.qukuailian.util.Req.ApiPost;
 import com.example.qukuailian.util.SM2.SM2;
-import com.example.qukuailian.util.SMA;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import java.math.BigInteger;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -37,24 +35,25 @@ public class AuctionService {
     CommonService commonService;
 
     public int insertAuction(String auctionId){
-        Auction auction = new Auction();
-        auction.setAuctionId(auctionId);
-        auctionMapper.insert(auction);
-        Integer flag = auctionMapper.selectByAuctionId(auctionId).getFlag();
-        System.out.println(flag);
-        KeyPair keyPair = SM2.generateSm2KeyPair(String.valueOf(flag));
+        Auction record = auctionMapper.selectByPrimaryKey(auctionId);
+        if(record != null){
+            throw new CustomException(120, "auctionId 已存在");
+        }
+        KeyPair keyPair = SM2.generateSm2KeyPair(String.valueOf(System.currentTimeMillis()));
         String pk = Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
         String sk = Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
-        auction.setFlag(flag);
-        auction.setPk(pk);
-        auction.setSk(sk);
-        auction.setOk(auctionId);
-        return auctionMapper.updateByPrimaryKey(auction);
+        Auction auction = Auction.builder()
+                .auctionId(auctionId)
+                .pk(pk)
+                .sk(sk)
+                .ok(auctionId)
+                .build();
+        return auctionMapper.insertSelective(auction);
     }
 
     public AuctionInformation encrypt(AuctionInformation auctionInformation) throws Exception {
         AuctionInformation result = new AuctionInformation();
-        Auction auction = auctionMapper.selectByAuctionId(auctionInformation.getAuctionId());
+        Auction auction = auctionMapper.selectByPrimaryKey(auctionInformation.getAuctionId());
         result.setAuctionId(auctionInformation.getAuctionId());
         result.setBidprice(OPE.getInstance().encrypt(new BigInteger(auctionInformation.getBidprice())).toString());
         result.setUsername(SM2.encrypt(auctionInformation.getUsername(),auction.getPk()));
@@ -63,7 +62,7 @@ public class AuctionService {
 
     public AuctionInformation decrypt(AuctionInformation auctionInformation) throws Exception {
         AuctionInformation result = new AuctionInformation();
-        Auction auction = auctionMapper.selectByAuctionId(auctionInformation.getAuctionId());
+        Auction auction = auctionMapper.selectByPrimaryKey(auctionInformation.getAuctionId());
 
         result.setAuctionId(auctionInformation.getAuctionId());
         result.setBidprice(OPE.getInstance().decrypt(new BigInteger(auctionInformation.getBidprice())).toString());
@@ -119,7 +118,7 @@ public class AuctionService {
         //存放拍卖号
         supervise.setData_id(auctionId);
         //存放加密内容
-        Auction auction = auctionMapper.selectByAuctionId(auctionId);
+        Auction auction = auctionMapper.selectByPrimaryKey(auctionId);
         List l = new ArrayList();
         EncryptContent EC1 = new EncryptContent();
         EC1.setType("OPE");
